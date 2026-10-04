@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silent Signal</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- navbar -->
+    <nav class="nav-color">
+        <div class="nav-wrapper container">
+            <a href="index.html" class="brand-logo"><svg class="mark" viewBox="0 0 40 40">
+                    <circle cx="20" cy="20" r="19" fill="none" stroke="#5b63b7" stroke-width="1.5" />
+                    <circle cx="20" cy="20" r="11" fill="none" stroke="#5b63b7" stroke-width="1.5" opacity=".6" />
+                    <circle cx="20" cy="20" r="4" fill="#5b63b7" />
+                </svg>Silent Signal</a>
+            <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li class="active"><a href="index.html">Feed</a></li>
+                <li><a href="submit.html">Submit</a></li>
+                <li><a href="about.html">Guidelines</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- mobile menu -->
+    <ul class="sidenav" id="mobile-nav">
+        <li><a href="index.html"><i class="material-icons">dynamic_feed</i>Feed</a></li>
+        <li><a href="submit.html"><i class="material-icons">edit</i>Submit</a></li>
+        <li><a href="about.html"><i class="material-icons">gavel</i>Guidelines</a></li>
+    </ul>
+
+    <main class="container">
+
+        <!-- intro -->
+        <div class="intro">
+            <h1>You're not alone.<br><span>We'll be your village.</span></h1>
+            <p>Share what's happening in your world and your community, safely and anonymously.</p>
+            <a href="submit.html" class="btn-large">Share safely</a>
+            <a href="about.html" class="btn-flat">How it works</a>
+            <div class="reassure">
+                <span><i class="material-icons">visibility_off</i>No name needed</span>
+                <span><i class="material-icons">lock</i>No account</span>
+                <span><i class="material-icons">favorite</i>Kind community</span>
+            </div>
+        </div>
+
+        <h4 class="section-title">Recent stories</h4>
+
+        <!-- category chips -->
+        <div class="chip active">All</div>
+        <div class="chip">Workplace</div>
+        <div class="chip">Public Safety</div>
+        <div class="chip">Political</div>
+        <div class="chip">Corruption</div>
+        <div class="chip">Community</div>
+        <div class="chip">Other</div>
+
+        <!-- posts -->
+        <div class="post">
+            <img src="https://picsum.photos/id/1047/300/220" alt="placeholder">
+            <div>
+                <span class="post-info">Community | Wichita, KS | 2h ago</span>
+                <h5><a href="post.html">Landlord ignoring mold reports</a></h5>
+                <p>We've reported black mold three times and maintenance keeps marking it fixed without coming out.</p>
+                <div class="actions"><a href="#!" class="boost">Boost (48)</a><a href="post.html">Read more</a></div>
+            </div>
+        </div>
+
+        <div class="post">
+            <img src="https://picsum.photos/id/1060/300/220" alt="placeholder">
+            <div>
+                <span class="post-info">Workplace | Derby, KS | 5h ago</span>
+                <h5><a href="post.html">Workers told to skip breaks</a></h5>
+                <p>Our supervisor says breaks are "optional" during busy weeks. People are scared to speak up.</p>
+                <div class="actions"><a href="#!" class="boost">Boost (31)</a><a href="post.html">Read more</a></div>
+            </div>
+        </div>
+
+        <div class="post">
+            <img src="https://picsum.photos/id/106/300/220" alt="placeholder">
+            <div>
+                <span class="post-info">Public Safety | Andover, KS | 9h ago</span>
+                <h5><a href="post.html">Broken crosswalk near the school</a></h5>
+                <p>The crosswalk light by the school has been out for weeks. Kids are crossing with no signal.</p>
+                <div class="actions"><a href="#!" class="boost">Boost (72)</a><a href="post.html">Read more</a></div>
+            </div>
+        </div>
+
+        <div class="post">
+            <img src="https://picsum.photos/id/152/300/220" alt="placeholder">
+            <div>
+                <span class="post-info">Corruption | Hutchinson, KS | 1d ago</span>
+                <h5><a href="post.html">Questions about the city contract</a></h5>
+                <p>The parks contract went to a company linked to a council member, with no public bidding.</p>
+                <div class="actions"><a href="#!" class="boost">Boost (19)</a><a href="post.html">Read more</a></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- floating button -->
+    <div class="fixed-action-btn">
+        <a href="submit.html" class="btn-floating btn-large"><i class="material-icons">add</i></a>
+    </div>
+
+    <!-- footer -->
+    <footer class="page-footer nav-color">
+        <div class="container">
+            <p>Silent Signal - INF 654 PWA Project</p>
+            <p><a href="#">GitHub Repository</a></p>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">© 2026 Silent Signal</div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

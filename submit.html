@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit a Report - Silent Signal</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- navbar -->
+    <nav class="nav-color">
+        <div class="nav-wrapper container">
+            <a href="index.html" class="brand-logo"><svg class="mark" viewBox="0 0 40 40">
+                    <circle cx="20" cy="20" r="19" fill="none" stroke="#5b63b7" stroke-width="1.5" />
+                    <circle cx="20" cy="20" r="11" fill="none" stroke="#5b63b7" stroke-width="1.5" opacity=".6" />
+                    <circle cx="20" cy="20" r="4" fill="#5b63b7" />
+                </svg>Silent Signal</a>
+            <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="index.html">Feed</a></li>
+                <li class="active"><a href="submit.html">Submit</a></li>
+                <li><a href="about.html">Guidelines</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- mobile menu -->
+    <ul class="sidenav" id="mobile-nav">
+        <li><a href="index.html"><i class="material-icons">dynamic_feed</i>Feed</a></li>
+        <li><a href="submit.html"><i class="material-icons">edit</i>Submit</a></li>
+        <li><a href="about.html"><i class="material-icons">gavel</i>Guidelines</a></li>
+    </ul>
+
+    <main>
+        <div class="header">
+            <div class="container">
+                <h3>Submit a Report</h3>
+                <p>No name or email needed. Your post is not linked to you.</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <form id="report-form">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="title" type="text" required>
+                                <label for="title">Title</label>
+                            </div>
+
+                            <div class="input-field col s12 m6">
+                                <select>
+                                    <option value="" disabled selected>Choose a category</option>
+                                    <option>Political</option>
+                                    <option>Workplace</option>
+                                    <option>Public Safety</option>
+                                    <option>Corruption</option>
+                                    <option>Discrimination</option>
+                                    <option>Abuse</option>
+                                    <option>Community Concerns</option>
+                                    <option>Other</option>
+                                </select>
+                                <label>Category</label>
+                            </div>
+
+                            <div class="input-field col s12 m6">
+                                <select>
+                                    <option value="" selected>Prefer not to say</option>
+                                    <option>Kansas</option>
+                                    <option>Missouri</option>
+                                    <option>Oklahoma</option>
+                                </select>
+                                <label>State</label>
+                            </div>
+
+                            <div class="input-field col s12 m6">
+                                <input id="city" type="text">
+                                <label for="city">City (optional)</label>
+                            </div>
+
+                            <div class="input-field col s12">
+                                <textarea id="story" class="materialize-textarea" required></textarea>
+                                <label for="story">Your story</label>
+                            </div>
+
+                            <div class="file-field input-field col s12">
+                                <div class="btn"><span>Image</span><input type="file"></div>
+                                <div class="file-path-wrapper"><input class="file-path" type="text"
+                                        placeholder="Upload an image (optional)"></div>
+                            </div>
+
+                            <div class="col s12">
+                                <label><input type="checkbox" class="filled-in" required><span>I agree to the community
+                                        guidelines</span></label>
+                            </div>
+                        </div>
+
+                        <button type="button" id="save-draft" class="btn-flat">Save Draft</button>
+                        <button type="submit" class="btn">Post Anonymously</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- floating button -->
+    <div class="fixed-action-btn">
+        <a href="submit.html" class="btn-floating btn-large"><i class="material-icons">add</i></a>
+    </div>
+
+    <!-- footer -->
+    <footer class="page-footer nav-color">
+        <div class="container">
+            <p>Silent Signal - INF 654 PWA Project</p>
+            <p><a href="#">GitHub Repository</a></p>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">© 2026 Silent Signal</div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,370 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Josefin+Sans&display=swap');
+
+/* colors */
+:root {
+    --bg: #faf6f3;
+    --text: #3b2f35;
+    --muted: #7d6f74;
+    --primary: #5b63b7;
+    --blush: #e8e9fb;
+    --line: #eadfd9;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+}
+
+main {
+    flex: 1 0 auto;
+    padding-bottom: 60px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+.card-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+}
+
+/* navbar */
+nav.nav-color {
+    background: var(--bg);
+    box-shadow: none;
+    border-bottom: 1px solid var(--line);
+}
+
+nav.nav-color .brand-logo,
+nav.nav-color ul a,
+nav.nav-color .sidenav-trigger i {
+    color: var(--text);
+}
+
+nav.nav-color .brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 20px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+}
+
+.mark {
+    width: 34px;
+    height: 34px;
+}
+
+nav.nav-color ul li.active {
+    background: none;
+}
+
+nav.nav-color ul li.active a {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* page headers */
+.header {
+    padding: 50px 0 20px;
+}
+
+.header h3 {
+    margin: 0 0 8px;
+}
+
+.header p {
+    color: var(--muted);
+    font-size: 17px;
+}
+
+/* home intro */
+.intro {
+    margin: 30px 0;
+    padding: 60px 50px;
+    border-radius: 32px;
+    background: linear-gradient(135deg, #e3e5fb 0%, #f4eff2 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.intro::after {
+    content: "";
+    position: absolute;
+    right: -60px;
+    bottom: -80px;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+}
+
+.intro>* {
+    position: relative;
+    z-index: 1;
+}
+
+.intro h1 {
+    font-size: 56px;
+    line-height: 1.1;
+    margin: 0 0 16px;
+    max-width: 600px;
+}
+
+.intro h1 span {
+    color: var(--primary);
+    font-style: italic;
+}
+
+.intro p {
+    color: var(--muted);
+    font-size: 19px;
+    margin-bottom: 26px;
+    max-width: 520px;
+}
+
+.reassure {
+    margin-top: 26px;
+}
+
+.reassure span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    padding: 6px 14px;
+    margin: 0 8px 8px 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.reassure i {
+    font-size: 18px;
+    color: var(--primary);
+}
+
+.section-title {
+    font-size: 30px;
+    margin: 10px 0 14px;
+}
+
+/* buttons */
+.btn,
+.btn-large {
+    background: var(--primary);
+    border-radius: 30px;
+    text-transform: none;
+    box-shadow: none;
+    font-weight: 500;
+}
+
+.btn:hover,
+.btn-large:hover {
+    background: #4a51a0;
+}
+
+.btn-flat {
+    text-transform: none;
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.btn-floating {
+    background: var(--primary) !important;
+}
+
+.btn-floating i {
+    color: white;
+}
+
+/* category chips */
+.chip {
+    cursor: pointer;
+    margin-bottom: 14px;
+    background: white;
+    border: 1px solid var(--line);
+    color: var(--text);
+}
+
+.chip.active,
+.chip:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+/* posts on home page */
+.post {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 18px;
+    margin-bottom: 14px;
+    background: white;
+    border-radius: 22px;
+    box-shadow: 0 6px 20px rgba(91, 99, 183, 0.10);
+    transition: transform 0.2s;
+}
+
+.post:hover {
+    transform: translateY(-3px);
+}
+
+.post img {
+    width: 120px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+.post h5 {
+    margin: 4px 0 6px;
+    font-size: 22px;
+}
+
+.post h5 a {
+    color: var(--text);
+}
+
+.post p {
+    margin: 0;
+    color: var(--muted);
+}
+
+.post .actions {
+    margin-top: 8px;
+}
+
+.post .actions a {
+    margin-right: 16px;
+    font-weight: 500;
+    color: var(--primary);
+}
+
+/* cards on other pages */
+.card {
+    border-radius: 22px;
+    box-shadow: 0 6px 20px rgba(91, 99, 183, 0.10);
+}
+
+.card .card-image img {
+    border-radius: 22px 22px 0 0;
+}
+
+.card .card-action {
+    border-radius: 0 0 22px 22px;
+}
+
+.card .card-action a {
+    color: var(--primary) !important;
+    text-transform: none !important;
+}
+
+.post-info {
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* forms */
+.input-field input:focus,
+.input-field textarea:focus {
+    border-bottom: 1px solid var(--primary) !important;
+    box-shadow: 0 1px 0 0 var(--primary) !important;
+}
+
+.input-field input:focus+label,
+.input-field textarea:focus+label {
+    color: var(--primary) !important;
+}
+
+[type="checkbox"].filled-in:checked+span:not(.lever):after {
+    border-color: var(--primary);
+    background-color: var(--primary);
+}
+
+[type="radio"]:checked+span:after {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.dropdown-content li>span {
+    color: var(--primary);
+}
+
+.collapsible {
+    border-radius: 12px;
+    background: white;
+}
+
+.collapsible-header i {
+    color: var(--primary);
+}
+
+/* comments */
+.collection {
+    border-radius: 16px;
+    border: none;
+    background: white;
+}
+
+.collection .collection-item.avatar .circle {
+    background: var(--primary) !important;
+}
+
+/* footer */
+.page-footer.nav-color {
+    background: var(--blush);
+    color: var(--text);
+}
+
+.page-footer .footer-copyright {
+    color: var(--muted) !important;
+    background: none;
+    border-top: 1px solid var(--line);
+}
+
+.page-footer a {
+    color: var(--primary) !important;
+    font-weight: 500;
+}
+
+/* phones */
+@media (max-width: 600px) {
+    .intro {
+        padding: 36px 24px;
+        border-radius: 24px;
+    }
+
+    .intro h1 {
+        font-size: 38px;
+    }
+
+    .post img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .post h5 {
+        font-size: 19px;
+    }
+
+    nav.nav-color .brand-logo {
+        font-size: 15px;
+        letter-spacing: 3px;
+        white-space: nowrap;
+    }
+
+    .mark {
+        width: 28px;
+        height: 28px;
+    }
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Details - Silent Signal</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- navbar -->
+    <nav class="nav-color">
+        <div class="nav-wrapper container">
+            <a href="index.html" class="brand-logo"><svg class="mark" viewBox="0 0 40 40">
+                    <circle cx="20" cy="20" r="19" fill="none" stroke="#5b63b7" stroke-width="1.5" />
+                    <circle cx="20" cy="20" r="11" fill="none" stroke="#5b63b7" stroke-width="1.5" opacity=".6" />
+                    <circle cx="20" cy="20" r="4" fill="#5b63b7" />
+                </svg>Silent Signal</a>
+            <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="index.html">Feed</a></li>
+                <li><a href="submit.html">Submit</a></li>
+                <li><a href="about.html">Guidelines</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- mobile menu -->
+    <ul class="sidenav" id="mobile-nav">
+        <li><a href="index.html"><i class="material-icons">dynamic_feed</i>Feed</a></li>
+        <li><a href="submit.html"><i class="material-icons">edit</i>Submit</a></li>
+        <li><a href="about.html"><i class="material-icons">gavel</i>Guidelines</a></li>
+    </ul>
+
+    <main>
+        <div class="header">
+            <div class="container">
+                <h3>Post Details</h3>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col s12 l8">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="https://picsum.photos/id/1047/900/400" alt="placeholder">
+                        </div>
+                        <div class="card-content">
+                            <p class="post-info">Community | Wichita, KS | 2h ago | Anonymous</p>
+                            <span class="card-title">Landlord ignoring mold reports</span>
+                            <p>Several of us in the Riverside apartments have reported black mold in our bathrooms and
+                                closets since the summer. Every time we submit a request, it gets marked "resolved" in
+                                the portal, but no one ever comes out.</p>
+                            <br>
+                            <p>A few neighbors have kids with asthma, and it's getting worse. I'm posting here because
+                                I'm worried about being singled out if I complain again under my name.</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="#!" class="boost">Boost (48)</a>
+                            <a href="#flag-modal" class="modal-trigger">Report Post</a>
+                        </div>
+                    </div>
+
+                    <h5>Comments</h5>
+                    <ul class="collection">
+                        <li class="collection-item avatar">
+                            <i class="material-icons circle">person</i>
+                            <span class="title">Anonymous User #4821</span>
+                            <p>Same thing happened in my building last year. Take photos and write down the dates.</p>
+                        </li>
+                        <li class="collection-item avatar">
+                            <i class="material-icons circle">person</i>
+                            <span class="title">Anonymous User #1307</span>
+                            <p>Thank you for posting this. I thought I was the only one.</p>
+                        </li>
+                    </ul>
+
+                    <form id="comment-form">
+                        <div class="input-field">
+                            <textarea id="comment" class="materialize-textarea" required></textarea>
+                            <label for="comment">Add an anonymous comment</label>
+                        </div>
+                        <button type="submit" class="btn">Comment</button>
+                    </form>
+                </div>
+
+                <div class="col s12 l4">
+                    <a href="index.html" class="btn" style="width:100%; margin-top:10px">Back to Feed</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- report popup -->
+        <div id="flag-modal" class="modal">
+            <div class="modal-content">
+                <h5>Report this post</h5>
+                <p><label><input name="reason" type="radio" checked><span>False information</span></label></p>
+                <p><label><input name="reason" type="radio"><span>Shares personal info</span></label></p>
+                <p><label><input name="reason" type="radio"><span>Harassment</span></label></p>
+                <p><label><input name="reason" type="radio"><span>Spam</span></label></p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close btn-flat">Cancel</a>
+                <a href="#!" id="send-flag" class="modal-close btn">Submit</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- floating button -->
+    <div class="fixed-action-btn">
+        <a href="submit.html" class="btn-floating btn-large"><i class="material-icons">add</i></a>
+    </div>
+
+    <!-- footer -->
+    <footer class="page-footer nav-color">
+        <div class="container">
+            <p>Silent Signal - INF 654 PWA Project</p>
+            <p><a href="#">GitHub Repository</a></p>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">© 2026 Silent Signal</div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
