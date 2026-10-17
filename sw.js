@@ -4,7 +4,7 @@
  */
 
 // Versioned cache name - bump this when app shell files change
-const CACHE_NAME = 'silent-signal-v1';
+const CACHE_NAME = 'silent-signal-v2';
 
 // Application shell: the files needed to open and run the main interface
 const APP_SHELL = [
@@ -94,6 +94,15 @@ self.addEventListener('fetch', (event) => {
 
         // 2. Not cached - try the network.
         const networkResponse = await fetch(event.request);
+
+        // A failed page load (offline or an error page like a raw 404)
+        // should show our offline page instead of a broken browser page.
+        if (!networkResponse.ok && event.request.mode === 'navigate') {
+          const offlinePage = await caches.match('./offline.html');
+          if (offlinePage) {
+            return offlinePage;
+          }
+        }
 
         // Cache same-origin files we didn't pre-cache (e.g. post images)
         // so they are available on the next offline visit.
