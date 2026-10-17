@@ -36,17 +36,36 @@ This midterm update turns the earlier prototype into a functional Progressive We
   runtime for the next offline visit.
 - **Offline Support** (`offline.html`) — if a page navigation fails while offline,
   a friendly "You're offline" page is served instead of a browser error.
-- **Cache Versioning** — the cache is named `silent-signal-v3`; the `activate`
+- **Cache Versioning** — the cache is named `silent-signal-v4`; the `activate`
   event deletes older `silent-signal-*` caches so only the current version remains.
 - **Local Assets** — Materialize, Material Icons, and fonts are vendored locally
   so the app shell is fully functional with no network connection.
 
 ## Prototype Limitations
 
-Posting, boosting, comments, and draft saving are simulated front-end
-interactions from the original proposal — no data is sent or stored yet, and
-they are not available offline. The midterm focuses on the PWA features listed
-above.
+There is no backend yet: posting, boosting, and comments are simulated
+front-end interactions, and submitted reports are not sent to a server. Drafts
+and offline-queued reports are stored only on the user's own device. The midterm
+focuses on the PWA features listed above.
+
+## Privacy, Safety & Offline Improvements
+
+Because people share sensitive things on Silent Signal, I put extra focus on
+privacy, safety, and making the app behave well on a bad connection:
+
+- **Privacy reminder** - the Submit page shows a notice asking users not to include
+  names, addresses, or other identifying details.
+- **Clear moderation process** - the Report Post modal and the Guidelines page now
+  explain exactly what happens after a post is flagged (anonymous review within 24
+  hours, rule-breaking posts removed).
+- **Online/offline indicator** - a small status pill on every page shows whether the
+  app is currently connected.
+- **Local drafts with offline submit** - the report form auto-saves to localStorage as
+  you type, restores when you come back, and if you submit while offline the report
+  is queued and posted when the connection returns.
+
+Comments, boosts, and other advanced features will stay simulated until the
+core application has a real backend.
 
 ## Running the App
 

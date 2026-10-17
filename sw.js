@@ -4,7 +4,7 @@
  */
 
 // Versioned cache name - bump this when app shell files change
-const CACHE_NAME = 'silent-signal-v3';
+const CACHE_NAME = 'silent-signal-v4';
 
 // Application shell: the files needed to open and run the main interface
 const APP_SHELL = [

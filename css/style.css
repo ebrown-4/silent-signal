@@ -318,6 +318,78 @@ nav.nav-color ul li.active a {
     background: var(--primary) !important;
 }
 
+/* privacy notice + flag review note */
+.privacy-notice {
+    background: var(--blush);
+    border: 1px solid #d9dcf5;
+    margin-bottom: 14px;
+}
+
+.privacy-notice .card-content {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+}
+
+.privacy-notice i {
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.privacy-notice p {
+    margin: 0;
+    font-size: 15px;
+}
+
+.flag-note {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: var(--blush);
+    border-radius: 12px;
+}
+
+.flag-note p {
+    margin: 0;
+    font-size: 13.5px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: var(--muted);
+}
+
+.flag-note i {
+    color: var(--primary);
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+/* online/offline status pill */
+.net-status {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    z-index: 998;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--primary);
+    color: white;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(59, 47, 53, 0.18);
+}
+
+.net-status i {
+    font-size: 16px;
+}
+
+.net-status.offline {
+    background: #9c8f95;
+}
+
 /* footer */
 .page-footer.nav-color {
     background: var(--blush);
