@@ -45,7 +45,7 @@
         <div class="header">
             <div class="container">
                 <h3>Submit a Report</h3>
-                <p>No name or email needed. Your post is not linked to you.</p>
+                <p>No account needed. Post anonymously or show a name - your choice.</p>
             </div>
         </div>
 
@@ -63,6 +63,18 @@
                 <div class="card-content">
                     <form id="report-form">
                         <div class="row">
+                            <div class="col s12 post-as">
+                                <label><input type="radio" name="post-as" id="post-anon" value="anonymous"
+                                        checked><span>Post anonymously</span></label>
+                                <label><input type="radio" name="post-as" id="post-named" value="named"><span>Show
+                                        my name</span></label>
+                            </div>
+
+                            <div class="input-field col s12 m6" id="name-field" style="display:none">
+                                <input id="display-name" type="text" maxlength="40">
+                                <label for="display-name">Display name</label>
+                            </div>
+
                             <div class="input-field col s12">
                                 <input id="title" type="text" required>
                                 <label for="title">Title</label>

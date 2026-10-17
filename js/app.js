@@ -112,6 +112,7 @@ function resetReportForm(form) {
     M.updateTextFields();
     setSelectValue(document.getElementById('category'), '');
     setSelectValue(document.getElementById('state'), 'Prefer not to say');
+    updateNameField();
 }
 
 // Save whatever is currently typed into the report form.
@@ -127,6 +128,8 @@ function saveDraft() {
         state: document.getElementById('state').value,
         city: document.getElementById('city').value,
         story: story.value,
+        postAs: isNamed() ? 'named' : 'anonymous',
+        displayName: document.getElementById('display-name').value,
         savedAt: new Date().toISOString()
     };
 
@@ -147,11 +150,33 @@ function clearDraft() {
     }
 }
 
+// Show or hide the display-name field based on the chosen option.
+function updateNameField() {
+    var nameField = document.getElementById('name-field');
+    if (!nameField) return;
+    nameField.style.display = isNamed() ? '' : 'none';
+}
+
+// Is the "Show my name" option selected?
+function isNamed() {
+    var named = document.getElementById('post-named');
+    return !!(named && named.checked);
+}
+
 function initReportForm() {
     var form = document.getElementById('report-form');
     if (!form) return;
 
     var saveButton = document.getElementById('save-draft');
+    var anonRadio = document.getElementById('post-anon');
+    var namedRadio = document.getElementById('post-named');
+
+    if (anonRadio) {
+        anonRadio.addEventListener('change', updateNameField);
+    }
+    if (namedRadio) {
+        namedRadio.addEventListener('change', updateNameField);
+    }
 
     // restore a previously saved draft
     var draft = readJson(DRAFT_KEY);
@@ -159,8 +184,13 @@ function initReportForm() {
         document.getElementById('title').value = draft.title || '';
         document.getElementById('city').value = draft.city || '';
         document.getElementById('story').value = draft.story || '';
+        document.getElementById('display-name').value = draft.displayName || '';
+        if (draft.postAs === 'named' && namedRadio) {
+            namedRadio.checked = true;
+        }
         setSelectValue(document.getElementById('category'), draft.category || '');
         setSelectValue(document.getElementById('state'), draft.state || 'Prefer not to say');
+        updateNameField();
         M.updateTextFields();
         M.toast({ html: 'Draft restored' });
     }
@@ -181,9 +211,21 @@ function initReportForm() {
     form.addEventListener('submit', function (e) {
         e.preventDefault();
 
+        // if "Show my name" is picked, a name is needed
+        if (isNamed() && !document.getElementById('display-name').value.trim()) {
+            M.toast({ html: 'Add a name or choose to post anonymously' });
+            return;
+        }
+
+        var postedAs = isNamed() ? document.getElementById('display-name').value.trim() : 'anonymous';
+
         if (navigator.onLine) {
             clearDraft();
-            M.toast({ html: 'Your report was posted anonymously' });
+            if (isNamed()) {
+                M.toast({ html: 'Your report was posted as ' + postedAs });
+            } else {
+                M.toast({ html: 'Your report was posted anonymously' });
+            }
             resetReportForm(form);
         } else {
             var draft = saveDraft();
@@ -192,6 +234,7 @@ function initReportForm() {
                 title: draft.title,
                 category: draft.category,
                 story: draft.story,
+                postAs: postedAs,
                 queuedAt: new Date().toISOString()
             });
             writeJson(OUTBOX_KEY, outbox);

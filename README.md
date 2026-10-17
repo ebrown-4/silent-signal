@@ -12,7 +12,7 @@ place to speak up.
 ## Pages
 
 - **Feed** (`index.html`) — recent anonymous posts with category filters and boosts
-- **Submit** (`submit.html`) — share a report anonymously
+- **Submit** (`submit.html`) — share a report anonymously or under a display name
 - **Post Details** (`post.html`) — read a full post with anonymous comments
 - **Guidelines** (`about.html`) — community rules and how the app works
 
@@ -36,7 +36,7 @@ This midterm update turns the earlier prototype into a functional Progressive We
   runtime for the next offline visit.
 - **Offline Support** (`offline.html`) — if a page navigation fails while offline,
   a friendly "You're offline" page is served instead of a browser error.
-- **Cache Versioning** — the cache is named `silent-signal-v4`; the `activate`
+- **Cache Versioning** — the cache is named `silent-signal-v5`; the `activate`
   event deletes older `silent-signal-*` caches so only the current version remains.
 - **Local Assets** — Materialize, Material Icons, and fonts are vendored locally
   so the app shell is fully functional with no network connection.
@@ -63,6 +63,8 @@ privacy, safety, and making the app behave well on a bad connection:
 - **Local drafts with offline submit** - the report form auto-saves to localStorage as
   you type, restores when you come back, and if you submit while offline the report
   is queued and posted when the connection returns.
+- **Anonymous by default** - posts are anonymous unless the user chooses "Show my
+  name" and types a display name; the name is never linked to an account or device.
 
 Comments, boosts, and other advanced features will stay simulated until the
 core application has a real backend.

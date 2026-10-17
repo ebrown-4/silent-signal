@@ -318,6 +318,15 @@ nav.nav-color ul li.active a {
     background: var(--primary) !important;
 }
 
+/* post-as choice */
+.post-as {
+    margin-bottom: 10px;
+}
+
+.post-as label {
+    margin-right: 24px;
+}
+
 /* privacy notice + flag review note */
 .privacy-notice {
     background: var(--blush);
