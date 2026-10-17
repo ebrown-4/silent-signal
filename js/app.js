@@ -59,3 +59,38 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+// ---- Service Worker registration ----
+// Register sw.js so the app shell can be cached for offline use.
+async function registerServiceWorker() {
+    if (!('serviceWorker' in navigator)) {
+        console.log('[Silent Signal] Service workers are not supported in this browser.');
+        return;
+    }
+
+    try {
+        const registration = await navigator.serviceWorker.register('./sw.js');
+        console.log('[Silent Signal] Service worker registered. Scope:', registration.scope);
+
+        registration.addEventListener('updatefound', () => {
+            console.log('[Silent Signal] A new service worker is installing...');
+        });
+
+        if (registration.active) {
+            console.log('[Silent Signal] Service worker is active and controlling this page.');
+        }
+    } catch (error) {
+        console.error('[Silent Signal] Service worker registration failed:', error);
+    }
+}
+
+// Wait until the page has fully loaded before registering,
+// so the first visit isn't slowed down.
+window.addEventListener('load', registerServiceWorker);
+
+// Let the user know when the connection comes back while on the offline page
+window.addEventListener('online', () => {
+    if (typeof M !== 'undefined') {
+        M.toast({ html: 'You are back online!' });
+    }
+});
