@@ -36,10 +36,17 @@ This midterm update turns the earlier prototype into a functional Progressive We
   runtime for the next offline visit.
 - **Offline Support** (`offline.html`) — if a page navigation fails while offline,
   a friendly "You're offline" page is served instead of a browser error.
-- **Cache Versioning** — the cache is named `silent-signal-v2`; the `activate`
+- **Cache Versioning** — the cache is named `silent-signal-v3`; the `activate`
   event deletes older `silent-signal-*` caches so only the current version remains.
 - **Local Assets** — Materialize, Material Icons, and fonts are vendored locally
   so the app shell is fully functional with no network connection.
+
+## Prototype Limitations
+
+Posting, boosting, comments, and draft saving are simulated front-end
+interactions from the original proposal — no data is sent or stored yet, and
+they are not available offline. The midterm focuses on the PWA features listed
+above.
 
 ## Running the App
 

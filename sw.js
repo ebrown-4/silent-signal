@@ -4,7 +4,7 @@
  */
 
 // Versioned cache name - bump this when app shell files change
-const CACHE_NAME = 'silent-signal-v2';
+const CACHE_NAME = 'silent-signal-v3';
 
 // Application shell: the files needed to open and run the main interface
 const APP_SHELL = [
@@ -42,6 +42,8 @@ const APP_SHELL = [
 
 // Install: save the application shell into Cache Storage,
 // and finish caching before installation completes.
+// If any file fails to cache, installation fails and the old
+// service worker keeps running.
 self.addEventListener('install', (event) => {
   event.waitUntil(
     (async () => {
@@ -52,6 +54,7 @@ self.addEventListener('install', (event) => {
         await self.skipWaiting();
       } catch (error) {
         console.error('[Silent Signal SW] Install failed:', error);
+        throw error; // rethrow so installation does not complete with a broken shell
       }
     })()
   );
@@ -71,6 +74,7 @@ self.addEventListener('activate', (event) => {
         await self.clients.claim();
       } catch (error) {
         console.error('[Silent Signal SW] Activation failed:', error);
+        throw error;
       }
     })()
   );
@@ -107,8 +111,13 @@ self.addEventListener('fetch', (event) => {
         // Cache same-origin files we didn't pre-cache (e.g. post images)
         // so they are available on the next offline visit.
         if (networkResponse.ok && new URL(event.request.url).origin === self.location.origin) {
-          const cache = await caches.open(CACHE_NAME);
-          cache.put(event.request, networkResponse.clone());
+          try {
+            const cache = await caches.open(CACHE_NAME);
+            await cache.put(event.request, networkResponse.clone());
+          } catch (cacheError) {
+            // A failed cache write should not break the response we already have.
+            console.warn('[Silent Signal SW] Could not cache file:', event.request.url, cacheError);
+          }
         }
 
         return networkResponse;
