@@ -34,6 +34,16 @@ document.addEventListener('DOMContentLoaded', function () {
     if (commentForm) {
         commentForm.addEventListener('submit', function (e) {
             e.preventDefault();
+
+            var flagged = screenContent([document.getElementById('comment').value]);
+            if (flagged && flagged.level === 'block') {
+                showBlockModal();
+                return;
+            }
+            if (flagged && flagged.level === 'warn') {
+                M.toast({ html: 'Please keep comments respectful - describe the situation, not the people' });
+            }
+
             M.toast({ html: 'Comment posted anonymously' });
             commentForm.reset();
         });
@@ -47,6 +57,81 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+// ================= Content safety screening =================
+
+// Slurs and hate speech are blocked outright.
+var BLOCKED_WORDS = [
+    'nigger', 'nigga', 'faggot', 'fag', 'tranny', 'chink', 'spic', 'wetback',
+    'kike', 'gook', 'towelhead', 'raghead', 'paki', 'shitskin', 'coon',
+    'cracker', 'honky', 'honkey', 'beaner', 'porchmonkey', 'junglebunny',
+    'retard', 'retarded', 'bitch', 'slut', 'whore', 'cunt'
+];
+
+// Mild name-calling gets a warning, but the post is allowed through.
+var WARNING_WORDS = [
+    'idiot', 'stupid', 'dumb', 'moron', 'loser', 'pathetic', 'fool',
+    'clown', 'coward', 'liar', 'trash', 'garbage', 'scum'
+];
+
+// Split text into lowercase words so "Stupid!" and "stupid" both match,
+// without flagging words that merely contain the same letters.
+function tokenize(text) {
+    return text.toLowerCase().replace(/[^a-z\s]/g, ' ').split(/\s+/).filter(Boolean);
+}
+
+function checkList(text, list) {
+    var tokens = tokenize(text);
+    for (var i = 0; i < tokens.length; i++) {
+        // check the word and its simple singular form ("idiots" -> "idiot")
+        var token = tokens[i];
+        var singular = token.replace(/s$/, '');
+        if (list.indexOf(token) !== -1 || list.indexOf(singular) !== -1) {
+            return token;
+        }
+    }
+    return null;
+}
+
+// Returns { level: 'block' | 'warn', word } or null if the text is fine.
+function screenContent(texts) {
+    var joined = texts.join(' ');
+    var blocked = checkList(joined, BLOCKED_WORDS);
+    if (blocked) {
+        return { level: 'block', word: blocked };
+    }
+    var warned = checkList(joined, WARNING_WORDS);
+    if (warned) {
+        return { level: 'warn', word: warned };
+    }
+    return null;
+}
+
+// A modal explaining why a post was blocked. Created once by JS
+// so every page gets it without duplicate HTML.
+function showBlockModal() {
+    var existing = document.getElementById('block-modal');
+    if (existing) {
+        M.Modal.getInstance(existing).open();
+        return;
+    }
+    var modal = document.createElement('div');
+    modal.id = 'block-modal';
+    modal.className = 'modal';
+    modal.innerHTML =
+        '<div class="modal-content">' +
+        '<h5><i class="material-icons" style="vertical-align:middle;color:#5b63b7">block</i> This post can\'t be submitted</h5>' +
+        '<p>It contains slurs or hate speech, which our community guidelines don\'t allow.</p>' +
+        '<p>Please rewrite your post to describe the situation without attacking or demeaning people. ' +
+        'You can read what\'s allowed on the <a href="about.html">Guidelines</a> page.</p>' +
+        '</div>' +
+        '<div class="modal-footer">' +
+        '<a href="#!" class="modal-close btn-flat">Close</a>' +
+        '<a href="about.html" class="modal-close btn">View Guidelines</a>' +
+        '</div>';
+    document.body.appendChild(modal);
+    M.Modal.init(modal).open();
+}
 
 // ================= Online / offline status =================
 
@@ -215,6 +300,20 @@ function initReportForm() {
         if (isNamed() && !document.getElementById('display-name').value.trim()) {
             M.toast({ html: 'Add a name or choose to post anonymously' });
             return;
+        }
+
+        // safety screening: slurs are blocked, name-calling gets a warning
+        var flagged = screenContent([
+            document.getElementById('title').value,
+            document.getElementById('story').value,
+            document.getElementById('display-name').value
+        ]);
+        if (flagged && flagged.level === 'block') {
+            showBlockModal();
+            return;
+        }
+        if (flagged && flagged.level === 'warn') {
+            M.toast({ html: 'Please keep posts respectful - describe the situation, not the people' });
         }
 
         var postedAs = isNamed() ? document.getElementById('display-name').value.trim() : 'anonymous';
