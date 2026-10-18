@@ -318,6 +318,10 @@ nav.nav-color ul li.active a {
     background: var(--primary) !important;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 /* post-as choice */
 .post-as {
     margin-bottom: 10px;
@@ -397,6 +401,14 @@ nav.nav-color ul li.active a {
 
 .net-status.offline {
     background: #9c8f95;
+}
+
+@media (max-width: 600px) {
+    .net-status {
+        position: static;
+        width: max-content;
+        margin: 12px 5% 0;
+    }
 }
 
 /* footer */

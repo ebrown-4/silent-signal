@@ -54,8 +54,9 @@
             <div class="card privacy-notice">
                 <div class="card-content">
                     <i class="material-icons">shield</i>
-                    <p><strong>Protect your privacy:</strong> don't include names, addresses, phone numbers, or other
-                        identifying details. Describe the situation, not the people.</p>
+                    <p><strong>Protect your privacy:</strong> leave out other people's names, addresses, phone numbers,
+                        or identifying details. A display name is optional and visible if you choose it.
+                        This prototype saves text drafts on this browser without encryption; avoid sensitive details on shared devices.</p>
                 </div>
             </div>
 
@@ -73,6 +74,7 @@
                             <div class="input-field col s12 m6" id="name-field" style="display:none">
                                 <input id="display-name" type="text" maxlength="40">
                                 <label for="display-name">Display name</label>
+                                <span class="helper-text">Optional and public on a future live post. A nickname is okay.</span>
                             </div>
 
                             <div class="input-field col s12">
@@ -128,8 +130,17 @@
                         </div>
 
                         <button type="button" id="save-draft" class="btn-flat">Save Draft</button>
-                        <button type="submit" class="btn">Post Anonymously</button>
+                        <button type="button" id="delete-draft" class="btn-flat">Delete Draft</button>
+                        <button type="submit" id="submit-report" class="btn">Preview Anonymous Report</button>
+                        <p>This is a course prototype, not a live reporting service. Text drafts are saved automatically
+                            in this browser, but images are not saved or uploaded. Online submission is a preview only;
+                            offline reports stay saved until a real submission service is added.</p>
                     </form>
+                    <section aria-labelledby="saved-reports-title">
+                        <h5 id="saved-reports-title">Saved offline reports</h5>
+                        <p>These stay on this browser and are not published. Open one to review it or delete it here.</p>
+                        <ul id="saved-reports" class="collection"></ul>
+                    </section>
                 </div>
             </div>
         </div>

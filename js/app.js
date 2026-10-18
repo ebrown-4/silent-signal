@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
             var num = parseInt(btn.textContent.replace(/\D/g, '')) + 1;
             btn.textContent = 'Boost (' + num + ')';
-            M.toast({ html: 'Post boosted!' });
+            M.toast({ html: 'Demo boost added for this visit' });
         });
     });
 
@@ -25,7 +25,16 @@ document.addEventListener('DOMContentLoaded', function () {
         chip.addEventListener('click', function () {
             chips.forEach(function (c) { c.classList.remove('active'); });
             chip.classList.add('active');
-            M.toast({ html: 'Showing: ' + chip.textContent });
+            var category = chip.textContent.trim();
+            var visibleCount = 0;
+            document.querySelectorAll('.post').forEach(function (post) {
+                var postCategory = post.querySelector('.post-info').textContent.split('|')[0].trim();
+                var visible = category === 'All' || category === postCategory;
+                post.hidden = !visible;
+                if (visible) visibleCount++;
+            });
+            var empty = document.getElementById('feed-empty');
+            if (empty) empty.hidden = visibleCount > 0;
         });
     });
 
@@ -44,8 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 M.toast({ html: 'Please keep comments respectful - describe the situation, not the people' });
             }
 
-            M.toast({ html: 'Comment posted anonymously' });
-            commentForm.reset();
+            M.toast({ html: 'Comment preview only; nothing was published' });
         });
     }
 
@@ -53,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var flag = document.getElementById('send-flag');
     if (flag) {
         flag.addEventListener('click', function () {
-            M.toast({ html: 'Thanks, a moderator will review this' });
+            M.toast({ html: 'Report preview only; no moderator service is connected yet' });
         });
     }
 });
@@ -141,7 +149,9 @@ function initNetworkStatus() {
     var pill = document.createElement('div');
     pill.className = 'net-status';
     pill.setAttribute('aria-live', 'polite');
-    document.body.appendChild(pill);
+    var nav = document.querySelector('nav');
+    if (nav) nav.insertAdjacentElement('afterend', pill);
+    else document.body.prepend(pill);
 
     function update() {
         var online = navigator.onLine;
@@ -196,7 +206,7 @@ function resetReportForm(form) {
     form.reset();
     M.updateTextFields();
     setSelectValue(document.getElementById('category'), '');
-    setSelectValue(document.getElementById('state'), 'Prefer not to say');
+    setSelectValue(document.getElementById('state'), '');
     updateNameField();
 }
 
@@ -240,12 +250,71 @@ function updateNameField() {
     var nameField = document.getElementById('name-field');
     if (!nameField) return;
     nameField.style.display = isNamed() ? '' : 'none';
+    document.getElementById('display-name').required = isNamed();
+    var submitButton = document.getElementById('submit-report');
+    if (submitButton) {
+        submitButton.textContent = isNamed() ? 'Preview Named Report' : 'Preview Anonymous Report';
+    }
 }
 
 // Is the "Show my name" option selected?
 function isNamed() {
     var named = document.getElementById('post-named');
     return !!(named && named.checked);
+}
+
+// Use textContent for user-written titles, not HTML.
+function renderSavedReports() {
+    var list = document.getElementById('saved-reports');
+    if (!list) return;
+    list.replaceChildren();
+    var outbox = readJson(OUTBOX_KEY);
+    if (!Array.isArray(outbox)) outbox = [];
+    if (!outbox.length) {
+        var empty = document.createElement('li');
+        empty.className = 'collection-item';
+        empty.textContent = 'No offline reports saved.';
+        list.appendChild(empty);
+    }
+    outbox.forEach(function (report, index) {
+        var item = document.createElement('li');
+        item.className = 'collection-item';
+        var title = document.createElement('p');
+        title.textContent = report.title || 'Untitled report';
+        item.appendChild(title);
+        var open = document.createElement('button');
+        open.type = 'button';
+        open.className = 'btn-flat';
+        open.textContent = 'Open';
+        open.addEventListener('click', function () {
+            document.getElementById('title').value = report.title || '';
+            document.getElementById('story').value = report.story || '';
+            document.getElementById('city').value = report.city || '';
+            var named = report.postAs && report.postAs !== 'anonymous';
+            document.getElementById('post-named').checked = !!named;
+            document.getElementById('post-anon').checked = !named;
+            document.getElementById('display-name').value = named ? report.postAs : '';
+            setSelectValue(document.getElementById('category'), report.category || '');
+            setSelectValue(document.getElementById('state'), report.state || '');
+            updateNameField();
+            M.updateTextFields();
+            M.textareaAutoResize(document.getElementById('story'));
+            document.getElementById('title').focus();
+        });
+        var remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'btn-flat';
+        remove.textContent = 'Delete';
+        remove.addEventListener('click', function () {
+            var current = readJson(OUTBOX_KEY);
+            if (!Array.isArray(current)) return;
+            current.splice(index, 1);
+            if (writeJson(OUTBOX_KEY, current)) renderSavedReports();
+            else M.toast({ html: 'Could not delete the saved report; check browser storage permissions.' });
+        });
+        item.append(open, remove);
+        list.appendChild(item);
+    });
 }
 
 function initReportForm() {
@@ -255,6 +324,12 @@ function initReportForm() {
     var saveButton = document.getElementById('save-draft');
     var anonRadio = document.getElementById('post-anon');
     var namedRadio = document.getElementById('post-named');
+    renderSavedReports();
+    document.getElementById('delete-draft').addEventListener('click', function () {
+        resetReportForm(form);
+        clearDraft();
+        M.toast({ html: 'Draft cleared from this browser. Saved offline reports are managed separately below.' });
+    });
 
     if (anonRadio) {
         anonRadio.addEventListener('change', updateNameField);
@@ -274,7 +349,7 @@ function initReportForm() {
             namedRadio.checked = true;
         }
         setSelectValue(document.getElementById('category'), draft.category || '');
-        setSelectValue(document.getElementById('state'), draft.state || 'Prefer not to say');
+        setSelectValue(document.getElementById('state'), draft.state || '');
         updateNameField();
         M.updateTextFields();
         M.toast({ html: 'Draft restored' });
@@ -287,8 +362,11 @@ function initReportForm() {
     // explicit save draft button
     if (saveButton) {
         saveButton.addEventListener('click', function () {
-            saveDraft();
-            M.toast({ html: 'Draft saved on this device' });
+            var savedDraft = saveDraft();
+            var storedDraft = readJson(DRAFT_KEY);
+            M.toast({ html: savedDraft && storedDraft
+                ? 'Draft saved in this browser (not encrypted)'
+                : 'No draft saved. Add text and check browser storage permissions.' });
         });
     }
 
@@ -306,7 +384,7 @@ function initReportForm() {
         var flagged = screenContent([
             document.getElementById('title').value,
             document.getElementById('story').value,
-            document.getElementById('display-name').value
+            isNamed() ? document.getElementById('display-name').value : ''
         ]);
         if (flagged && flagged.level === 'block') {
             showBlockModal();
@@ -319,43 +397,39 @@ function initReportForm() {
         var postedAs = isNamed() ? document.getElementById('display-name').value.trim() : 'anonymous';
 
         if (navigator.onLine) {
-            clearDraft();
-            if (isNamed()) {
-                M.toast({ html: 'Your report was posted as ' + postedAs });
-            } else {
-                M.toast({ html: 'Your report was posted anonymously' });
-            }
-            resetReportForm(form);
+            saveDraft();
+            M.toast({ html: 'Report preview only; nothing was published. Your form stays here to edit.' });
         } else {
             var draft = saveDraft();
-            var outbox = readJson(OUTBOX_KEY) || [];
+            var outbox = readJson(OUTBOX_KEY);
+            if (!Array.isArray(outbox)) outbox = [];
             outbox.push({
                 title: draft.title,
                 category: draft.category,
                 story: draft.story,
+                state: draft.state,
+                city: draft.city,
                 postAs: postedAs,
                 queuedAt: new Date().toISOString()
             });
-            writeJson(OUTBOX_KEY, outbox);
+            if (!writeJson(OUTBOX_KEY, outbox)) {
+                M.toast({ html: 'Could not save offline. Your text is still in the form; copy it before leaving.' });
+                return;
+            }
             clearDraft();
-            M.toast({ html: 'You are offline - your report is saved and will post when you are back online' });
+            M.toast({ html: 'Saved offline in this browser. Nothing will be published automatically in this prototype.' });
             resetReportForm(form);
+            renderSavedReports();
         }
     });
 }
 
-// When the connection comes back, send anything that was
-// queued while offline.
+// Keep saved reports on reconnect. A real submission API must acknowledge
+// delivery before an outbox entry can safely be deleted.
 window.addEventListener('online', function () {
     var outbox = readJson(OUTBOX_KEY);
-    if (outbox && outbox.length > 0) {
-        try {
-            localStorage.removeItem(OUTBOX_KEY);
-            var noun = outbox.length === 1 ? 'report was' : outbox.length + ' reports were';
-            M.toast({ html: 'Back online - your saved ' + noun + ' posted anonymously' });
-        } catch (error) {
-            console.warn('[Silent Signal] Could not clear the outbox:', error);
-        }
+    if (Array.isArray(outbox) && outbox.length > 0) {
+        M.toast({ html: 'Back online. Saved reports are still on this browser; no publishing service is connected yet.' });
     } else {
         M.toast({ html: 'You are back online!' });
     }

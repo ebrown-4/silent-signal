@@ -1,91 +1,113 @@
 # Silent Signal
 
-Silent Signal is a Progressive Web App for INF 654. It is a safe, anonymous space
-where people can share what's happening in their world or their community —
-workplace issues, public safety concerns, or community problems — without a name
-or an account.
+Silent Signal is my INF 654 Progressive Web App for sharing experiences of
+injustice, harmful behavior, discrimination, and other troubling events in local
+or state communities. The goal is to help people bring attention to concerns
+without having to reveal their identities.
 
-The app is designed for anyone who wants to report or read local community
-concerns privately: residents, workers, and students who need a judgment-free
-place to speak up.
+The intended users include community members, people who have experienced harm
+or fear retaliation, whistleblowers, activists, and advocates. This course
+prototype is not ready for sensitive reports or public use.
 
 ## Pages
 
-- **Feed** (`index.html`) — recent anonymous posts with category filters and boosts
-- **Submit** (`submit.html`) — share a report anonymously or under a display name
-- **Post Details** (`post.html`) — read a full post with anonymous comments
-- **Guidelines** (`about.html`) — community rules and how the app works
+- **Home Feed** (`index.html`): sample community posts with category filtering.
+- **Submit Report** (`submit.html`): anonymous by default, with an optional display
+  name, local text drafts, and offline saved reports.
+- **Post Details** (`post.html`): a sample story, comment preview, and flag form.
+- **About/Guidelines** (`about.html`): purpose, community rules, privacy limitations,
+  and the planned review process.
+- **Offline** (`offline.html`): a fallback when a page is unavailable.
 
-Built with HTML, Materialize CSS, and JavaScript. Fully responsive with a mobile
-sidenav navigation.
+The original responsive design, Materialize CSS, navigation, and branding are
+still used. Categories are part of the Feed rather than a separate page.
 
 ## PWA Features
 
-This midterm update turns the earlier prototype into a functional Progressive Web App:
+- **Manifest** (`manifest.json`): application name, short name, ID, start URL, scope,
+  standalone display mode, colors, and normal and maskable icons.
+- **Registration** (`js/app.js`): service worker support check, async/await,
+  try/catch, and useful console messages.
+- **Application shell** (`sw.js`): local HTML, styles, scripts, fonts, manifest,
+  and icons cached during install with `event.waitUntil()`.
+- **GET requests**: cache first, then network. Failed page requests receive the
+  cached offline page.
+- **Cache versions**: `silent-signal-v8`; activation removes older
+  `silent-signal-*` versions without deleting unrelated applications' caches.
+- **Offline writing**: text drafts can be restored after reload, and offline
+  reports can be saved, opened, or deleted in the same browser.
+- **Connection indicator**: the browser's reported online/offline state is visible
+  on each page. It does not guarantee the reporting server is reachable.
 
-- **Web App Manifest** (`manifest.json`) — app name, short name, ID, start URL,
-  scope, standalone display mode, theme color, background color, and app icons
-  (including maskable icons), linked from every page.
-- **Service Worker** (`sw.js`) — registered from `js/app.js` with browser support
-  detection, `async/await`, `try...catch` error handling, and console logging.
-- **Application Shell Cache** — the HTML pages, CSS, JavaScript, icons, and
-  fonts needed to load the main interface are cached in Cache Storage during the
-  `install` event (with `event.waitUntil()` so installation waits for caching).
-- **Fetch Handling** — for GET requests, Cache Storage is checked first and the
-  network is used as a fallback. Same-origin files visited online are cached at
-  runtime for the next offline visit.
-- **Offline Support** (`offline.html`) — if a page navigation fails while offline,
-  a friendly "You're offline" page is served instead of a browser error.
-- **Cache Versioning** — the cache is named `silent-signal-v7`; the `activate`
-  event deletes older `silent-signal-*` caches so only the current version remains.
-- **Local Assets** — Materialize, Material Icons, and fonts are vendored locally
-  so the app shell is fully functional with no network connection.
+## Original Proposal and Current Progress
+
+I am keeping the anonymous community-reporting purpose from my proposal. The
+midterm focuses on the PWA foundation, not completing every proposed feature.
+
+| Proposed feature or screen | Current progress |
+| --- | --- |
+| Anonymous story submission | Anonymous is the default. Submission is a preview; no server receives reports yet. |
+| Community feed | Sample stories, not real user reports. |
+| Categories/tags | Political, Workplace, Public Safety, Corruption, Discrimination, Abuse, Community Concerns, and Other. Feed filters the sample stories. |
+| City, county, or state filtering | City and state form fields are present; location filtering and county support are still planned. |
+| Signal Boost | A demo counter for the current page visit, not a saved vote. |
+| Anonymous comments | Comment preview and basic word screening; no comments are published. |
+| Report/flag system | A form demonstrates flag reasons. Moderator delivery, review, and removal still need a backend. |
+| Optional encrypted local drafts | Local text drafts work, but are not encrypted. Encryption remains planned. |
+| Settings | User preferences, dark mode, and optional anonymity tools remain planned. |
+| Installability and app shell | Manifest, icons, service worker, and versioned shell caching are implemented. |
+| Write offline and submit later | Reports stay saved locally after reconnect. Real submission and delivery confirmation remain planned. |
+
+## Privacy and Safety
+
+No account is required in the prototype. The optional display-name choice was
+added after the proposal; it does not replace anonymous posting and does not
+verify anyone's identity. Only use a name if you intend to make it visible.
+
+Drafts, including a display name if entered, are stored in this browser using
+localStorage without encryption. They are not protected from other people using
+the same browser profile. Use Delete Draft or the saved report's Delete button
+to remove local text. Images are not saved in drafts or uploaded.
+
+A privacy reminder asks users not to expose other people's identifying details.
+A basic, client-side word filter blocks listed slurs and warns about some
+name-calling in reports and comments. It does not understand context, can miss
+abuse, and is not a replacement for server-side checks and human review.
+
+The flag form describes a planned review workflow, not a staffed moderation
+service. No review time or guarantee of anonymity is promised. Stronger privacy
+protections, encrypted drafts, server-side enforcement, and a real moderation
+process are needed before a public launch.
 
 ## Prototype Limitations
 
-There is no backend yet: posting, boosting, and comments are simulated
-front-end interactions, and submitted reports are not sent to a server. Drafts
-and offline-queued reports are stored only on the user's own device. The midterm
-focuses on the PWA features listed above.
+There is no backend. Posts, comments, flags, and votes are not sent to a server.
+Offline reports stay saved on the device after the connection returns; they are
+not automatically published or deleted. Opening a saved report lets you review
+its text while the live submission system is still being built.
 
-## Privacy, Safety & Offline Improvements
+The next steps are to connect and test the core reporting service, then add
+location browsing and Settings. Advanced interactions and privacy tools will
+follow without changing the original purpose.
 
-Because people share sensitive things on Silent Signal, I put extra focus on
-privacy, safety, and making the app behave well on a bad connection:
+## Running and Testing
 
-- **Privacy reminder** - the Submit page shows a notice asking users not to include
-  names, addresses, or other identifying details.
-- **Clear moderation process** - the Report Post modal and the Guidelines page now
-  explain exactly what happens after a post is flagged (anonymous review within 24
-  hours, rule-breaking posts removed).
-- **Online/offline indicator** - a small status pill on every page shows whether the
-  app is currently connected.
-- **Local drafts with offline submit** - the report form auto-saves to localStorage as
-  you type, restores when you come back, and if you submit while offline the report
-  is queued and posted when the connection returns.
-- **Anonymous by default** - posts are anonymous unless the user chooses "Show my
-  name" and types a display name; the name is never linked to an account or device.
-- **Content safety screening** - posts and comments are checked before submitting:
-  slurs and hate speech are blocked with an explanation and a link to the guidelines,
-  and milder name-calling triggers a reminder to keep it respectful. Word matching
-  is deliberately simple (whole words only) to avoid flagging innocent posts.
+Service workers need HTTPS or localhost, not a double-clicked HTML file.
+From this repository's folder run:
 
-Comments, boosts, and other advanced features will stay simulated until the
-core application has a real backend.
-
-## Running the App
-
-Service workers require a secure context, so run the app from a local server
-(not by double-clicking the HTML file):
-
-```
+```sh
 python3 -m http.server 8080
 ```
 
-Then open http://localhost:8080 in your browser. To test offline mode, open
-Chrome DevTools, go to the Application tab, and check "Offline" (or use the
-Network tab's offline throttle). Reload the page — the app should still load,
-and uncached page requests should show the offline page.
+On Windows, `python -m http.server 8080` may be the command. Open
+http://localhost:8080 and let the service worker install, then reload.
+
+- Check DevTools > Application for the manifest, service worker, and shell cache.
+- Try each category, including one with no sample stories.
+- Save a draft and reload; test anonymous and optional-name choices.
+- Switch DevTools Network to Offline; open cached pages and an uncached page.
+- Save a report offline, reconnect, and confirm it stays in Saved offline reports.
+- Open or delete a saved report and check the browser console for errors.
 
 ## AI Use
 
